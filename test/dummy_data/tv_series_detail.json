@@ -1,0 +1,39 @@
+{
+  "adult": false,
+  "backdrop_path": "/y4w232QOzDD1McRocp2htMVmF3b.jpg",
+  "episode_run_time": [
+    30,
+    22
+  ],
+  "first_air_date": "1996-07-22",
+  "genres": [
+    {
+      "id": 10763,
+      "name": "News"
+    },
+    {
+      "id": 35,
+      "name": "Comedy"
+    }
+  ],
+  "homepage": "https://www.cc.com/shows/the-daily-show",
+  "id": 2224,
+  "in_production": true,
+  "languages": [
+    "en"
+  ],
+  "last_air_date": "2024-02-14",
+  "name": "The Daily Show",
+  "number_of_episodes": 3883,
+  "number_of_seasons": 29,
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_name": "The Daily Show",
+  "overview": "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
+  "popularity": 4195.155,
+  "poster_path": "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
+  "vote_average": 6.323,
+  "vote_count": 468
+  }
