@@ -61,13 +61,25 @@ final testMovieMap = {
   'title': 'title',
 };
 
-const testTvSeriesTable = TvSeriesTable(
-  id: 2224,
-  name: 'The Daily Show',
-  posterPath: '/ixcfyK7it6FjRM36Te4OdblAq4X.jpg',
+final testTvSeries = TvSeries(
+  adult: false,
+  backdropPath: "/xl1wGwaPZInJo1JAnpKqnFozWBE.jpg",
+  genreIds: const [35, 10767],
+  id: 59941,
+  originCountry: const ["US"],
+  originalLanguage: "en",
+  originalName: "The Tonight Show Starring Jimmy Fallon",
   overview:
-      "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
+      "After Jay Leno's second retirement from the program, Jimmy Fallon stepped in as his permanent replacement. After 42 years in Los Angeles the program was brought back to New York.",
+  popularity: 6096.757,
+  posterPath: "/xFOVcKxo7SSexJiLsTw2PrbNGcZ.jpg",
+  firstAirDate: "2014-02-17",
+  name: "The Tonight Show Starring Jimmy Fallon",
+  voteAverage: 5.809,
+  voteCount: 277,
 );
+
+final testTvSeriesList = [testTvSeries];
 
 const testTvSeriesDetail = TvSeriesDetail(
   adult: false,
@@ -93,6 +105,14 @@ final testWatchlistTvSeries = TvSeries.watchlist(
       "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
   posterPath: "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
   name: 'The Daily Show',
+);
+
+const testTvSeriesTable = TvSeriesTable(
+  id: 2224,
+  name: 'The Daily Show',
+  posterPath: '/ixcfyK7it6FjRM36Te4OdblAq4X.jpg',
+  overview:
+      "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
 );
 
 final testTvSeriesMap = {
