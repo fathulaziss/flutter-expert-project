@@ -1,6 +1,7 @@
 import 'package:ditonton/data/models/movie_table.dart';
 import 'package:ditonton/data/models/tv_series_table.dart';
 import 'package:ditonton/domain/entities/genre.dart';
+import 'package:ditonton/domain/entities/last_episode_to_air.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/movie_detail.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
@@ -84,20 +85,64 @@ final testTvSeriesList = [testTvSeries];
 const testTvSeriesDetail = TvSeriesDetail(
   adult: false,
   backdropPath: "/y4w232QOzDD1McRocp2htMVmF3b.jpg",
+  episodeRunTime: [30, 22],
   firstAirDate: "1996-07-22",
   genres: <Genre>[
     Genre(id: 10763, name: "News"),
     Genre(id: 35, name: "Comedy"),
   ],
+  homepage: "https://www.cc.com/shows/the-daily-show",
   id: 2224,
+  inProduction: true,
+  languages: ["en"],
+  lastAirDate: "2024-02-15",
+  lastEpisodeToAir: LastEpisodeToAir(
+    id: 5101843,
+    name: "February 15, 2024 - Cord Jefferson",
+    overview:
+        "Jordan Klepper covers a sex scandal in the Fulton County, GA, D.A.'s office, Grace Kuhlenschmidt swoons over adulterous presidents, and director Cord Jefferson discusses \"American Fiction.\"",
+    voteAverage: 0,
+    voteCount: 0,
+    airDate: "2024-02-15",
+    episodeNumber: 4,
+    episodeType: "standard",
+    productionCode: "",
+    runtime: 24,
+    seasonNumber: 29,
+    showId: 2224,
+    stillPath: "/xhZlEPRlG71Wo8gvz6fCzWmY7kE.jpg",
+  ),
   name: "The Daily Show",
+  numberOfEpisodes: 3887,
+  numberOfSeasons: 29,
+  originCountry: ["US"],
+  originalLanguage: "en",
   originalName: "The Daily Show",
   overview:
       "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
+  popularity: 3092.914,
   posterPath: "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
-  voteAverage: 6.323,
-  voteCount: 468,
+  voteAverage: 6.3,
+  voteCount: 471,
 );
+
+// const testTvSeriesDetail = TvSeriesDetail(
+//   adult: false,
+//   backdropPath: "/y4w232QOzDD1McRocp2htMVmF3b.jpg",
+//   firstAirDate: "1996-07-22",
+//   genres: <Genre>[
+//     Genre(id: 10763, name: "News"),
+//     Genre(id: 35, name: "Comedy"),
+//   ],
+//   id: 2224,
+//   name: "The Daily Show",
+//   originalName: "The Daily Show",
+//   overview:
+//       "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
+//   posterPath: "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
+//   voteAverage: 6.323,
+//   voteCount: 468,
+// );
 
 final testWatchlistTvSeries = TvSeries.watchlist(
   id: 2224,

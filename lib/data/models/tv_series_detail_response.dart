@@ -1,4 +1,5 @@
 import 'package:ditonton/data/models/genre_model.dart';
+import 'package:ditonton/data/models/last_episode_to_air_model.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
 import 'package:equatable/equatable.dart';
 
@@ -14,6 +15,7 @@ class TvSeriesDetailResponse extends Equatable {
     required this.inProduction,
     required this.languages,
     required this.lastAirDate,
+    required this.lastEpisodeToAir,
     required this.name,
     required this.numberOfEpisodes,
     required this.numberOfSeasons,
@@ -37,6 +39,7 @@ class TvSeriesDetailResponse extends Equatable {
   final bool inProduction;
   final List<String> languages;
   final String lastAirDate;
+  final LastEpisodeToAirModel lastEpisodeToAir;
   final String name;
   final int numberOfEpisodes;
   final int numberOfSeasons;
@@ -62,6 +65,8 @@ class TvSeriesDetailResponse extends Equatable {
         inProduction: json["in_production"],
         languages: List<String>.from(json["languages"].map((x) => x)),
         lastAirDate: json["last_air_date"],
+        lastEpisodeToAir:
+            LastEpisodeToAirModel.fromJson(json["last_episode_to_air"]),
         name: json["name"],
         numberOfEpisodes: json["number_of_episodes"],
         numberOfSeasons: json["number_of_seasons"],
@@ -86,6 +91,7 @@ class TvSeriesDetailResponse extends Equatable {
         "in_production": inProduction,
         "languages": List<dynamic>.from(languages.map((x) => x)),
         "last_air_date": lastAirDate,
+        "last_episode_to_air": lastEpisodeToAir.toJson(),
         "name": name,
         "number_of_episodes": numberOfEpisodes,
         "number_of_seasons": numberOfSeasons,
@@ -103,13 +109,24 @@ class TvSeriesDetailResponse extends Equatable {
     return TvSeriesDetail(
       adult: adult,
       backdropPath: backdropPath,
+      episodeRunTime: episodeRunTime,
+      firstAirDate: firstAirDate,
       genres: genres.map((genre) => genre.toEntity()).toList(),
+      homepage: homepage,
       id: id,
+      inProduction: inProduction,
+      languages: languages,
+      lastAirDate: lastAirDate,
+      lastEpisodeToAir: lastEpisodeToAir.toEntity(),
+      name: name,
+      numberOfEpisodes: numberOfEpisodes,
+      numberOfSeasons: numberOfSeasons,
+      originCountry: originCountry,
+      originalLanguage: originalLanguage,
       originalName: originalName,
       overview: overview,
+      popularity: popularity,
       posterPath: posterPath,
-      firstAirDate: firstAirDate,
-      name: name,
       voteAverage: voteAverage,
       voteCount: voteCount,
     );
@@ -127,6 +144,7 @@ class TvSeriesDetailResponse extends Equatable {
         inProduction,
         languages,
         lastAirDate,
+        lastEpisodeToAir,
         name,
         numberOfEpisodes,
         numberOfSeasons,

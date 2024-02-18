@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/data/models/genre_model.dart';
+import 'package:ditonton/data/models/last_episode_to_air_model.dart';
 import 'package:ditonton/data/models/tv_series_detail_response.dart';
 import 'package:ditonton/data/models/tv_series_model.dart';
 import 'package:ditonton/data/repositories/tv_series_repository_impl.dart';
@@ -193,7 +194,7 @@ void main() {
   });
 
   group('Get Tv Series Detail', () {
-    const tId = 1;
+    const tId = 2224;
     const tTvSeriesDetailResponse = TvSeriesDetailResponse(
       adult: false,
       backdropPath: "/y4w232QOzDD1McRocp2htMVmF3b.jpg",
@@ -208,18 +209,34 @@ void main() {
       inProduction: true,
       languages: ["en"],
       lastAirDate: "2024-02-14",
+      lastEpisodeToAir: LastEpisodeToAirModel(
+        id: 5101843,
+        name: "February 15, 2024 - Cord Jefferson",
+        overview:
+            "Jordan Klepper covers a sex scandal in the Fulton County, GA, D.A.'s office, Grace Kuhlenschmidt swoons over adulterous presidents, and director Cord Jefferson discusses \"American Fiction.\"",
+        voteAverage: 0,
+        voteCount: 0,
+        airDate: "2024-02-15",
+        episodeNumber: 4,
+        episodeType: "standard",
+        productionCode: "",
+        runtime: 24,
+        seasonNumber: 29,
+        showId: 2224,
+        stillPath: "/xhZlEPRlG71Wo8gvz6fCzWmY7kE.jpg",
+      ),
       name: "The Daily Show",
-      numberOfEpisodes: 3883,
+      numberOfEpisodes: 3887,
       numberOfSeasons: 29,
       originCountry: ["US"],
       originalLanguage: "en",
       originalName: "The Daily Show",
       overview:
           "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
-      popularity: 4195.155,
+      popularity: 3092.914,
       posterPath: "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
-      voteAverage: 6.323,
-      voteCount: 468,
+      voteAverage: 6.3,
+      voteCount: 471,
     );
 
     test(
