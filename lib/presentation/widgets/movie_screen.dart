@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MovieScreen extends StatefulWidget {
-  const MovieScreen({Key? key}) : super(key: key);
+  const MovieScreen({super.key});
 
   @override
   State<MovieScreen> createState() => _MovieScreenState();

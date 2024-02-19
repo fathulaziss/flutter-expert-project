@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 class WatchlistMoviesPage extends StatefulWidget {
   static const ROUTE_NAME = '/watchlist-movie';
 
-  const WatchlistMoviesPage({Key? key}) : super(key: key);
+  const WatchlistMoviesPage({super.key});
 
   @override
   State<WatchlistMoviesPage> createState() => _WatchlistMoviesPageState();

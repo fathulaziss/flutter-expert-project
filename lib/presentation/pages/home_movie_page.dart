@@ -8,7 +8,7 @@ import 'package:ditonton/presentation/widgets/tv_series_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeMoviePage extends StatefulWidget {
-  const HomeMoviePage({Key? key}) : super(key: key);
+  const HomeMoviePage({super.key});
 
   @override
   State<HomeMoviePage> createState() => _HomeMoviePageState();

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class TvSeriesCard extends StatelessWidget {
   final TvSeries tvSeries;
 
-  const TvSeriesCard(this.tvSeries, {Key? key}) : super(key: key);
+  const TvSeriesCard(this.tvSeries, {super.key});
 
   @override
   Widget build(BuildContext context) {

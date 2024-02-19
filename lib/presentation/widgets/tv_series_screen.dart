@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TvSeriesScreen extends StatefulWidget {
-  const TvSeriesScreen({Key? key}) : super(key: key);
+  const TvSeriesScreen({super.key});
 
   @override
   State<TvSeriesScreen> createState() => _TvSeriesScreenState();

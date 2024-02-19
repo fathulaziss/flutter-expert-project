@@ -15,7 +15,7 @@ class TvSeriesDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/tv-series-detail';
 
   final int id;
-  const TvSeriesDetailPage({Key? key, required this.id}) : super(key: key);
+  const TvSeriesDetailPage({super.key, required this.id});
 
   @override
   State<TvSeriesDetailPage> createState() => _TvSeriesDetailPageState();
@@ -65,8 +65,7 @@ class DetailContent extends StatelessWidget {
 
   const DetailContent(
       this.tvSeriesDetail, this.recommendations, this.isAddedWatchlist,
-      {Key? key})
-      : super(key: key);
+      {super.key});
 
   @override
   Widget build(BuildContext context) {

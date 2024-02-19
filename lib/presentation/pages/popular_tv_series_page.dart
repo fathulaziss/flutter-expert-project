@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class PopularTvSeriesPage extends StatefulWidget {
   static const ROUTE_NAME = '/popular-tv-series';
 
-  const PopularTvSeriesPage({Key? key}) : super(key: key);
+  const PopularTvSeriesPage({super.key});
 
   @override
   State<PopularTvSeriesPage> createState() => _PopularTvSeriesPageState();
