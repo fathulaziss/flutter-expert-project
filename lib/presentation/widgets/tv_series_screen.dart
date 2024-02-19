@@ -2,6 +2,7 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/pages/popular_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/top_rated_tv_series_page.dart';
+import 'package:ditonton/presentation/pages/tv_series_list_page.dart';
 import 'package:ditonton/presentation/provider/tv_series_list_notifier.dart';
 import 'package:ditonton/presentation/widgets/tv_series_list.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,11 @@ class _TvSeriesScreenState extends State<TvSeriesScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Now Playing', style: kHeading6),
+            _buildSubHeading(
+              title: 'Airing Today',
+              onTap: () =>
+                  Navigator.pushNamed(context, TvSeriesListPage.ROUTE_NAME),
+            ),
             Consumer<TvSeriesListNotifier>(builder: (context, data, child) {
               final state = data.nowPlayingTvSeriesState;
               if (state == RequestState.Loading) {

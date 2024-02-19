@@ -34,18 +34,18 @@ class LastEpisodeToAirModel extends Equatable {
 
   factory LastEpisodeToAirModel.fromJson(Map<String, dynamic> json) =>
       LastEpisodeToAirModel(
-        id: json["id"],
-        name: json["name"],
-        overview: json["overview"],
+        id: json["id"] ?? 0,
+        name: json["name"] ?? '',
+        overview: json["overview"] ?? '',
         voteAverage: json["vote_average"].toDouble(),
-        voteCount: json["vote_count"],
-        airDate: json["air_date"],
-        episodeNumber: json["episode_number"],
-        episodeType: json["episode_type"],
-        productionCode: json["production_code"],
-        runtime: json["runtime"],
-        seasonNumber: json["season_number"],
-        showId: json["show_id"],
+        voteCount: json["vote_count"] ?? 0,
+        airDate: json["air_date"] ?? '',
+        episodeNumber: json["episode_number"] ?? 0,
+        episodeType: json["episode_type"] ?? '',
+        productionCode: json["production_code"] ?? '',
+        runtime: json["runtime"] ?? 0,
+        seasonNumber: json["season_number"] ?? 0,
+        showId: json["show_id"] ?? 0,
         stillPath: json["still_path"].toString(),
       );
 

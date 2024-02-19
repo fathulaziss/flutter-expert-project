@@ -208,7 +208,7 @@ void main() {
       id: 2224,
       inProduction: true,
       languages: ["en"],
-      lastAirDate: "2024-02-14",
+      lastAirDate: "2024-02-15",
       lastEpisodeToAir: LastEpisodeToAirModel(
         id: 5101843,
         name: "February 15, 2024 - Cord Jefferson",
