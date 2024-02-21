@@ -49,14 +49,22 @@ class SearchTvSeriesPage extends StatelessWidget {
                 } else if (data.state == RequestState.Loaded) {
                   final result = data.searchResult;
                   return Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        final tvSeries = data.searchResult[index];
-                        return TvSeriesCard(tvSeries);
-                      },
-                      itemCount: result.length,
-                    ),
+                    child: result.isNotEmpty
+                        ? ListView.builder(
+                            padding: const EdgeInsets.all(8),
+                            itemBuilder: (context, index) {
+                              final tvSeries = result[index];
+                              return TvSeriesCard(tvSeries);
+                            },
+                            itemCount: result.length,
+                          )
+                        : Center(
+                            child: Text(
+                              'Tv Series Tidak Ditemukan',
+                              textAlign: TextAlign.center,
+                              style: kBodyText,
+                            ),
+                          ),
                   );
                 } else {
                   return Expanded(

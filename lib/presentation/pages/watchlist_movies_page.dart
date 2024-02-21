@@ -66,7 +66,20 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                     child: CircularProgressIndicator(),
                   );
                 } else if (state == RequestState.Loaded) {
-                  return MovieList(data.watchlistMovies);
+                  if (data.watchlistMovies.isNotEmpty) {
+                    return MovieList(data.watchlistMovies);
+                  } else {
+                    return SizedBox(
+                      height: 200,
+                      child: Center(
+                        child: Text(
+                          'Anda belum menambahkan Movie ke daftar tonton Anda',
+                          textAlign: TextAlign.center,
+                          style: kBodyText,
+                        ),
+                      ),
+                    );
+                  }
                 } else {
                   return const Text('Failed');
                 }
@@ -80,7 +93,20 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                     child: CircularProgressIndicator(),
                   );
                 } else if (state == RequestState.Loaded) {
-                  return TvSeriesList(data.watchlistTvSeries);
+                  if (data.watchlistTvSeries.isNotEmpty) {
+                    return TvSeriesList(data.watchlistTvSeries);
+                  } else {
+                    return SizedBox(
+                      height: 200,
+                      child: Center(
+                        child: Text(
+                          'Anda belum menambahkan Tv Series ke daftar tonton Anda',
+                          textAlign: TextAlign.center,
+                          style: kBodyText,
+                        ),
+                      ),
+                    );
+                  }
                 } else {
                   return const Text('Failed');
                 }
