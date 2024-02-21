@@ -21,7 +21,7 @@ class SeasonDetailResponseModel extends Equatable {
   final String overview;
   final int id;
   final String ids;
-  final String posterPath;
+  final String? posterPath;
   final int seasonNumber;
   final double voteAverage;
 

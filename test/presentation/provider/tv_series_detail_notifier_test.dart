@@ -96,6 +96,7 @@ void main() {
       // assert
       verify(mockGetTvSeriesDetail.execute(tId));
       verify(mockGetTvSeriesRecommendations.execute(tId));
+      verify(mockGetTvSeriesEpisodes.execute(tId, tSeason));
     });
 
     test('should change state to Loading when usecase is called', () {
@@ -116,7 +117,7 @@ void main() {
       // assert
       expect(provider.tvSeriesDetailState, RequestState.Loaded);
       expect(provider.tvSeriesDetail, testTvSeriesDetail);
-      expect(listenerCallCount, 3);
+      expect(listenerCallCount, 5);
     });
 
     test(
@@ -129,6 +130,17 @@ void main() {
       // assert
       expect(provider.tvSeriesDetailState, RequestState.Loaded);
       expect(provider.tvSeriesRecommendations, tTvSeriesList);
+    });
+
+    test('should change tv series episode when data is gotten successfully',
+        () async {
+      // arrange
+      arrangeUsecase();
+      // act
+      await provider.fetchTvSeriesDetail(tId);
+      // assert
+      expect(provider.tvSeriesEpisodeState, RequestState.Loaded);
+      expect(provider.tvSeriesEpisodes, testTvSeriesEpisodes);
     });
   });
 
@@ -160,6 +172,8 @@ void main() {
           .thenAnswer((_) async => const Right(testTvSeriesDetail));
       when(mockGetTvSeriesRecommendations.execute(tId))
           .thenAnswer((_) async => const Left(ServerFailure('Failed')));
+      when(mockGetTvSeriesEpisodes.execute(tId, tSeason))
+          .thenAnswer((_) async => const Right(testTvSeriesEpisodes));
       // act
       await provider.fetchTvSeriesDetail(tId);
       // assert
@@ -173,7 +187,7 @@ void main() {
       // arrange
       arrangeUsecase();
       // act
-      await provider.fetchTvSeriesEpisodes(tId, tSeason);
+      await provider.fetchTvSeriesDetail(tId);
       // assert
       verify(mockGetTvSeriesEpisodes.execute(tId, tSeason));
       expect(provider.tvSeriesEpisodes, testTvSeriesEpisodes);
@@ -185,7 +199,7 @@ void main() {
       // arrange
       arrangeUsecase();
       // act
-      await provider.fetchTvSeriesEpisodes(tId, tSeason);
+      await provider.fetchTvSeriesDetail(tId);
       // assert
       expect(provider.tvSeriesEpisodeState, RequestState.Loaded);
       expect(provider.tvSeriesEpisodes, testTvSeriesEpisodes);
@@ -201,10 +215,10 @@ void main() {
               testTvSeriesDetail.id, testTvSeriesDetail.numberOfSeasons))
           .thenAnswer((_) async => const Left(ServerFailure('Failed')));
       // act
-      await provider.fetchTvSeriesEpisodes(tId, tSeason);
+      await provider.fetchTvSeriesDetail(tId);
       // assert
       expect(provider.tvSeriesEpisodeState, RequestState.Error);
-      expect(provider.tvSeriesEpisodeMessage, 'Failed');
+      expect(provider.message, 'Failed');
     });
   });
 
@@ -279,6 +293,8 @@ void main() {
           .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));
       when(mockGetTvSeriesRecommendations.execute(tId))
           .thenAnswer((_) async => Right(tTvSeriesList));
+      when(mockGetTvSeriesEpisodes.execute(tId, tSeason))
+          .thenAnswer((_) async => const Right(testTvSeriesEpisodes));
       // act
       await provider.fetchTvSeriesDetail(tId);
       // assert

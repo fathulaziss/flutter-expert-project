@@ -87,8 +87,27 @@ class TvSeriesDetailNotifier extends ChangeNotifier {
       },
     );
 
-    await fetchTvSeriesEpisodes(
-        tvSeriesDetail.id, tvSeriesDetail.numberOfSeasons);
+    if (tvSeriesDetailState != RequestState.Error) {
+      _tvSeriesEpisodeState = RequestState.Loading;
+      notifyListeners();
+      final episodeResult = await getTvSeriesEpisodes.execute(
+        tvSeriesDetail.id,
+        tvSeriesDetail.numberOfSeasons,
+      );
+
+      episodeResult.fold(
+        (failure) {
+          _tvSeriesEpisodeState = RequestState.Error;
+          _message = failure.message;
+          notifyListeners();
+        },
+        (tvSeriesEpisodes) {
+          _tvSeriesEpisodeState = RequestState.Loaded;
+          _tvSeriesEpisodes = tvSeriesEpisodes;
+          notifyListeners();
+        },
+      );
+    }
   }
 
   String _watchlistMessage = '';

@@ -208,52 +208,54 @@ class DetailContent extends StatelessWidget {
                                   );
                                 } else if (data.tvSeriesEpisodeState ==
                                     RequestState.Error) {
-                                  return Text(data.tvSeriesEpisodeMessage);
+                                  return Text(data.message);
                                 } else if (data.tvSeriesEpisodeState ==
                                     RequestState.Loaded) {
                                   return SizedBox(
                                     height: 150,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        final tvSeriesEpisode =
-                                            tvSeriesEpisodes[index];
-                                        return Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: InkWell(
-                                            onTap: () {
-                                              // Navigator.pushReplacementNamed(
-                                              //   context,
-                                              //   TvSeriesDetailPage.ROUTE_NAME,
-                                              //   arguments: tvSeriesEpisode.id,
-                                              // );
-                                            },
-                                            child: Container(
-                                              width: 150,
-                                              padding: const EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                color: Colors.amber,
-                                              ),
-                                              child: Center(
-                                                child: SingleChildScrollView(
-                                                  child: Text(
-                                                    '${tvSeriesEpisode.name}\n(${tvSeriesEpisode.episodeNumber})',
-                                                    style: kBodyText,
-                                                    textAlign: TextAlign.center,
+                                    child: tvSeriesEpisodes.isNotEmpty
+                                        ? ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, index) {
+                                              final tvSeriesEpisode =
+                                                  tvSeriesEpisodes[index];
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Container(
+                                                  width: 150,
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    color: Colors.amber,
+                                                  ),
+                                                  child: Center(
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Text(
+                                                        '${tvSeriesEpisode.name} - Episode ${tvSeriesEpisode.episodeNumber}',
+                                                        style: kBodyText,
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
+                                              );
+                                            },
+                                            itemCount: tvSeriesEpisodes.length,
+                                          )
+                                        : Center(
+                                            child: Text(
+                                                'Episode Tidak Ditemukan',
+                                                style: kBodyText),
                                           ),
-                                        );
-                                      },
-                                      itemCount: tvSeriesEpisodes.length,
-                                    ),
                                   );
                                 } else {
-                                  return Container();
+                                  return const SizedBox();
                                 }
                               },
                             ),
@@ -264,40 +266,49 @@ class DetailContent extends StatelessWidget {
                             ),
                             SizedBox(
                               height: 150,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  final season = tvSeriesDetail.seasons[index];
-                                  return Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: InkWell(
-                                      onTap: () {
-                                        Navigator.pushReplacementNamed(
-                                          context,
-                                          TvSeriesDetailPage.ROUTE_NAME,
-                                          arguments: season.id,
+                              child: tvSeriesDetail.seasons.isNotEmpty
+                                  ? ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        final season =
+                                            tvSeriesDetail.seasons[index];
+                                        return Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.pushReplacementNamed(
+                                                context,
+                                                TvSeriesDetailPage.ROUTE_NAME,
+                                                arguments: season.id,
+                                              );
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(8),
+                                              ),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    'https://image.tmdb.org/t/p/w500${season.posterPath}',
+                                                placeholder: (context, url) =>
+                                                    const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
+                                              ),
+                                            ),
+                                          ),
                                         );
                                       },
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(8),
-                                        ),
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              'https://image.tmdb.org/t/p/w500${season.posterPath}',
-                                          placeholder: (context, url) =>
-                                              const Center(
-                                            child: CircularProgressIndicator(),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                        ),
-                                      ),
+                                      itemCount: tvSeriesDetail.seasons.length,
+                                    )
+                                  : Center(
+                                      child: Text('Season Tidak Ditemukan',
+                                          style: kBodyText),
                                     ),
-                                  );
-                                },
-                                itemCount: tvSeriesDetail.seasons.length,
-                              ),
                             ),
                             const SizedBox(height: 16),
                             Text(
