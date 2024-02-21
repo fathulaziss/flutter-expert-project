@@ -1,9 +1,11 @@
 import 'package:ditonton/data/models/movie_table.dart';
 import 'package:ditonton/data/models/tv_series_table.dart';
+import 'package:ditonton/domain/entities/episode.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/last_episode_to_air.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/movie_detail.dart';
+import 'package:ditonton/domain/entities/season.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
 
@@ -122,27 +124,39 @@ const testTvSeriesDetail = TvSeriesDetail(
       "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
   popularity: 3092.914,
   posterPath: "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
+  seasons: [
+    Season(
+      airDate: "1999-12-15",
+      episodeCount: 89,
+      id: 6869,
+      name: "Specials",
+      overview: "",
+      posterPath: "",
+      seasonNumber: 0,
+      voteAverage: 0,
+    )
+  ],
   voteAverage: 6.3,
   voteCount: 471,
 );
 
-// const testTvSeriesDetail = TvSeriesDetail(
-//   adult: false,
-//   backdropPath: "/y4w232QOzDD1McRocp2htMVmF3b.jpg",
-//   firstAirDate: "1996-07-22",
-//   genres: <Genre>[
-//     Genre(id: 10763, name: "News"),
-//     Genre(id: 35, name: "Comedy"),
-//   ],
-//   id: 2224,
-//   name: "The Daily Show",
-//   originalName: "The Daily Show",
-//   overview:
-//       "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
-//   posterPath: "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
-//   voteAverage: 6.323,
-//   voteCount: 468,
-// );
+const testTvSeriesEpisodes = [
+  Episode(
+    airDate: "2024-02-12",
+    episodeNumber: 1,
+    id: 5098193,
+    name: "February 12, 2024 - Zanny Minton Beddoes",
+    overview:
+        "Jon Stewart looks at President Biden and Donald Trump's advanced ages, the news team visits a true American diner, and The Economist's Zanny Minton Beddoes examines national conservatism.",
+    productionCode: "",
+    runtime: 43,
+    seasonNumber: 29,
+    showId: 2224,
+    stillPath: "/coaGUC0F5Flm7DJAokqWpI1Y2aL.jpg",
+    voteAverage: 0,
+    voteCount: 0,
+  ),
+];
 
 final testWatchlistTvSeries = TvSeries.watchlist(
   id: 2224,

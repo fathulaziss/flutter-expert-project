@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
+import 'package:ditonton/domain/entities/episode.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
@@ -46,6 +47,7 @@ class _TvSeriesDetailPageState extends State<TvSeriesDetailPage> {
               child: DetailContent(
                 tvSeriesDetail,
                 provider.tvSeriesRecommendations,
+                provider.tvSeriesEpisodes,
                 provider.isAddedToWatchlistTvSeries,
               ),
             );
@@ -61,10 +63,11 @@ class _TvSeriesDetailPageState extends State<TvSeriesDetailPage> {
 class DetailContent extends StatelessWidget {
   final TvSeriesDetail tvSeriesDetail;
   final List<TvSeries> recommendations;
+  final List<Episode> tvSeriesEpisodes;
   final bool isAddedWatchlist;
 
-  const DetailContent(
-      this.tvSeriesDetail, this.recommendations, this.isAddedWatchlist,
+  const DetailContent(this.tvSeriesDetail, this.recommendations,
+      this.tvSeriesEpisodes, this.isAddedWatchlist,
       {super.key});
 
   @override
@@ -190,6 +193,111 @@ class DetailContent extends StatelessWidget {
                             ),
                             Text(
                               tvSeriesDetail.overview,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Episode',
+                              style: kHeading6,
+                            ),
+                            Consumer<TvSeriesDetailNotifier>(
+                              builder: (context, data, child) {
+                                if (data.tvSeriesEpisodeState ==
+                                    RequestState.Loading) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (data.tvSeriesEpisodeState ==
+                                    RequestState.Error) {
+                                  return Text(data.tvSeriesEpisodeMessage);
+                                } else if (data.tvSeriesEpisodeState ==
+                                    RequestState.Loaded) {
+                                  return SizedBox(
+                                    height: 150,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        final tvSeriesEpisode =
+                                            tvSeriesEpisodes[index];
+                                        return Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              // Navigator.pushReplacementNamed(
+                                              //   context,
+                                              //   TvSeriesDetailPage.ROUTE_NAME,
+                                              //   arguments: tvSeriesEpisode.id,
+                                              // );
+                                            },
+                                            child: Container(
+                                              width: 150,
+                                              padding: const EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: Colors.amber,
+                                              ),
+                                              child: Center(
+                                                child: SingleChildScrollView(
+                                                  child: Text(
+                                                    '${tvSeriesEpisode.name}\n(${tvSeriesEpisode.episodeNumber})',
+                                                    style: kBodyText,
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      itemCount: tvSeriesEpisodes.length,
+                                    ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Seasons',
+                              style: kHeading6,
+                            ),
+                            SizedBox(
+                              height: 150,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  final season = tvSeriesDetail.seasons[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.pushReplacementNamed(
+                                          context,
+                                          TvSeriesDetailPage.ROUTE_NAME,
+                                          arguments: season.id,
+                                        );
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(8),
+                                        ),
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              'https://image.tmdb.org/t/p/w500${season.posterPath}',
+                                          placeholder: (context, url) =>
+                                              const Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                itemCount: tvSeriesDetail.seasons.length,
+                              ),
                             ),
                             const SizedBox(height: 16),
                             Text(

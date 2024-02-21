@@ -7,17 +7,19 @@ import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:ditonton/common/failure.dart' as _i6;
+import 'package:ditonton/domain/entities/episode.dart' as _i11;
 import 'package:ditonton/domain/entities/tv_series.dart' as _i9;
 import 'package:ditonton/domain/entities/tv_series_detail.dart' as _i7;
 import 'package:ditonton/domain/repositories/tv_series_repository.dart' as _i2;
 import 'package:ditonton/domain/usecases/get_tv_series_detail.dart' as _i4;
+import 'package:ditonton/domain/usecases/get_tv_series_episodes.dart' as _i10;
 import 'package:ditonton/domain/usecases/get_tv_series_recommendations.dart'
     as _i8;
 import 'package:ditonton/domain/usecases/get_watchlist_tv_series_status.dart'
-    as _i10;
-import 'package:ditonton/domain/usecases/remove_watchlist_tv_series.dart'
     as _i12;
-import 'package:ditonton/domain/usecases/save_watchlist_tv_series.dart' as _i11;
+import 'package:ditonton/domain/usecases/remove_watchlist_tv_series.dart'
+    as _i14;
+import 'package:ditonton/domain/usecases/save_watchlist_tv_series.dart' as _i13;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -127,11 +129,57 @@ class MockGetTvSeriesRecommendations extends _i1.Mock
       ) as _i5.Future<_i3.Either<_i6.Failure, List<_i9.TvSeries>>>);
 }
 
+/// A class which mocks [GetTvSeriesEpisodes].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGetTvSeriesEpisodes extends _i1.Mock
+    implements _i10.GetTvSeriesEpisodes {
+  MockGetTvSeriesEpisodes() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.TvSeriesRepository get repository => (super.noSuchMethod(
+        Invocation.getter(#repository),
+        returnValue: _FakeTvSeriesRepository_0(
+          this,
+          Invocation.getter(#repository),
+        ),
+      ) as _i2.TvSeriesRepository);
+
+  @override
+  _i5.Future<_i3.Either<_i6.Failure, List<_i11.Episode>>> execute(
+    int? id,
+    int? season,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #execute,
+          [
+            id,
+            season,
+          ],
+        ),
+        returnValue:
+            _i5.Future<_i3.Either<_i6.Failure, List<_i11.Episode>>>.value(
+                _FakeEither_1<_i6.Failure, List<_i11.Episode>>(
+          this,
+          Invocation.method(
+            #execute,
+            [
+              id,
+              season,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i6.Failure, List<_i11.Episode>>>);
+}
+
 /// A class which mocks [GetWatchListTvSeriesStatus].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGetWatchListTvSeriesStatus extends _i1.Mock
-    implements _i10.GetWatchListTvSeriesStatus {
+    implements _i12.GetWatchListTvSeriesStatus {
   MockGetWatchListTvSeriesStatus() {
     _i1.throwOnMissingStub(this);
   }
@@ -159,7 +207,7 @@ class MockGetWatchListTvSeriesStatus extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSaveWatchlistTvSeries extends _i1.Mock
-    implements _i11.SaveWatchlistTvSeries {
+    implements _i13.SaveWatchlistTvSeries {
   MockSaveWatchlistTvSeries() {
     _i1.throwOnMissingStub(this);
   }
@@ -196,7 +244,7 @@ class MockSaveWatchlistTvSeries extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockRemoveWatchlistTvSeries extends _i1.Mock
-    implements _i12.RemoveWatchlistTvSeries {
+    implements _i14.RemoveWatchlistTvSeries {
   MockRemoveWatchlistTvSeries() {
     _i1.throwOnMissingStub(this);
   }

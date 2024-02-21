@@ -3,6 +3,7 @@ import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/usecases/get_tv_series_detail.dart';
+import 'package:ditonton/domain/usecases/get_tv_series_episodes.dart';
 import 'package:ditonton/domain/usecases/get_tv_series_recommendations.dart';
 import 'package:ditonton/domain/usecases/get_watchlist_tv_series_status.dart';
 import 'package:ditonton/domain/usecases/remove_watchlist_tv_series.dart';
@@ -18,6 +19,7 @@ import 'tv_series_detail_notifier_test.mocks.dart';
 @GenerateMocks([
   GetTvSeriesDetail,
   GetTvSeriesRecommendations,
+  GetTvSeriesEpisodes,
   GetWatchListTvSeriesStatus,
   SaveWatchlistTvSeries,
   RemoveWatchlistTvSeries,
@@ -26,6 +28,7 @@ void main() {
   late TvSeriesDetailNotifier provider;
   late MockGetTvSeriesDetail mockGetTvSeriesDetail;
   late MockGetTvSeriesRecommendations mockGetTvSeriesRecommendations;
+  late MockGetTvSeriesEpisodes mockGetTvSeriesEpisodes;
   late MockGetWatchListTvSeriesStatus mockGetWatchlistTvSeriesStatus;
   late MockSaveWatchlistTvSeries mockSaveWatchlistTvSeries;
   late MockRemoveWatchlistTvSeries mockRemoveWatchlistTvSeries;
@@ -35,12 +38,14 @@ void main() {
     listenerCallCount = 0;
     mockGetTvSeriesDetail = MockGetTvSeriesDetail();
     mockGetTvSeriesRecommendations = MockGetTvSeriesRecommendations();
+    mockGetTvSeriesEpisodes = MockGetTvSeriesEpisodes();
     mockGetWatchlistTvSeriesStatus = MockGetWatchListTvSeriesStatus();
     mockSaveWatchlistTvSeries = MockSaveWatchlistTvSeries();
     mockRemoveWatchlistTvSeries = MockRemoveWatchlistTvSeries();
     provider = TvSeriesDetailNotifier(
       getTvSeriesDetail: mockGetTvSeriesDetail,
       getTvSeriesRecommendations: mockGetTvSeriesRecommendations,
+      getTvSeriesEpisodes: mockGetTvSeriesEpisodes,
       getWatchListTvSeriesStatus: mockGetWatchlistTvSeriesStatus,
       saveWatchlistTvSeries: mockSaveWatchlistTvSeries,
       removeWatchlistTvSeries: mockRemoveWatchlistTvSeries,
@@ -49,24 +54,25 @@ void main() {
       });
   });
 
-  const tId = 59941;
+  const tId = 2224;
+  const tSeason = 29;
 
   final tTvSeries = TvSeries(
     adult: false,
-    backdropPath: "/xl1wGwaPZInJo1JAnpKqnFozWBE.jpg",
-    genreIds: const [35, 10767],
-    id: 59941,
+    backdropPath: "/y4w232QOzDD1McRocp2htMVmF3b.jpg",
+    genreIds: const [10763, 35],
+    id: 2224,
     originCountry: const ["US"],
     originalLanguage: "en",
-    originalName: "The Tonight Show Starring Jimmy Fallon",
+    originalName: "The Daily Show",
     overview:
-        "After Jay Leno's second retirement from the program, Jimmy Fallon stepped in as his permanent replacement. After 42 years in Los Angeles the program was brought back to New York.",
-    popularity: 6096.757,
-    posterPath: "/xFOVcKxo7SSexJiLsTw2PrbNGcZ.jpg",
-    firstAirDate: "2014-02-17",
-    name: "The Tonight Show Starring Jimmy Fallon",
-    voteAverage: 5.809,
-    voteCount: 277,
+        "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
+    popularity: 5175.371,
+    posterPath: "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
+    firstAirDate: "1996-07-22",
+    name: "The Daily Show",
+    voteAverage: 6.3,
+    voteCount: 471,
   );
 
   final tTvSeriesList = <TvSeries>[tTvSeries];
@@ -76,6 +82,9 @@ void main() {
         .thenAnswer((_) async => const Right(testTvSeriesDetail));
     when(mockGetTvSeriesRecommendations.execute(tId))
         .thenAnswer((_) async => Right(tTvSeriesList));
+    when(mockGetTvSeriesEpisodes.execute(
+            testTvSeriesDetail.id, testTvSeriesDetail.numberOfSeasons))
+        .thenAnswer((_) async => const Right(testTvSeriesEpisodes));
   }
 
   group('Get Tv Series Detail', () {
@@ -156,6 +165,46 @@ void main() {
       // assert
       expect(provider.recommendationTvSeriesState, RequestState.Error);
       expect(provider.message, 'Failed');
+    });
+  });
+
+  group('Get Tv Series Episodes', () {
+    test('should get data from the usecase', () async {
+      // arrange
+      arrangeUsecase();
+      // act
+      await provider.fetchTvSeriesEpisodes(tId, tSeason);
+      // assert
+      verify(mockGetTvSeriesEpisodes.execute(tId, tSeason));
+      expect(provider.tvSeriesEpisodes, testTvSeriesEpisodes);
+    });
+
+    test(
+        'should update tv series episode state when data is gotten successfully',
+        () async {
+      // arrange
+      arrangeUsecase();
+      // act
+      await provider.fetchTvSeriesEpisodes(tId, tSeason);
+      // assert
+      expect(provider.tvSeriesEpisodeState, RequestState.Loaded);
+      expect(provider.tvSeriesEpisodes, testTvSeriesEpisodes);
+    });
+
+    test('should update error message when request in successful', () async {
+      // arrange
+      when(mockGetTvSeriesDetail.execute(tId))
+          .thenAnswer((_) async => const Right(testTvSeriesDetail));
+      when(mockGetTvSeriesRecommendations.execute(tId))
+          .thenAnswer((_) async => Right(tTvSeriesList));
+      when(mockGetTvSeriesEpisodes.execute(
+              testTvSeriesDetail.id, testTvSeriesDetail.numberOfSeasons))
+          .thenAnswer((_) async => const Left(ServerFailure('Failed')));
+      // act
+      await provider.fetchTvSeriesEpisodes(tId, tSeason);
+      // assert
+      expect(provider.tvSeriesEpisodeState, RequestState.Error);
+      expect(provider.tvSeriesEpisodeMessage, 'Failed');
     });
   });
 

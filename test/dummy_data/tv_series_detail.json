@@ -49,6 +49,18 @@
   "overview": "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
   "popularity": 3092.914,
   "poster_path": "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
+  "seasons": [
+    {
+      "air_date": "1999-12-15",
+      "episode_count": 89,
+      "id": 6869,
+      "name": "Specials",
+      "overview": "",
+      "poster_path": null,
+      "season_number": 0,
+      "vote_average": 0
+    }
+  ],
   "vote_average": 6.3,
   "vote_count": 471
 }

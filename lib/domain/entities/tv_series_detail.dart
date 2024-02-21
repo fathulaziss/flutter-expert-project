@@ -1,5 +1,6 @@
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/last_episode_to_air.dart';
+import 'package:ditonton/domain/entities/season.dart';
 import 'package:equatable/equatable.dart';
 
 class TvSeriesDetail extends Equatable {
@@ -24,6 +25,7 @@ class TvSeriesDetail extends Equatable {
     required this.overview,
     required this.popularity,
     required this.posterPath,
+    required this.seasons,
     required this.voteAverage,
     required this.voteCount,
   });
@@ -48,6 +50,7 @@ class TvSeriesDetail extends Equatable {
   final String overview;
   final double popularity;
   final String posterPath;
+  final List<Season> seasons;
   final double voteAverage;
   final int voteCount;
 
@@ -73,6 +76,7 @@ class TvSeriesDetail extends Equatable {
         overview,
         popularity,
         posterPath,
+        seasons,
         voteAverage,
         voteCount,
       ];

@@ -1,7 +1,9 @@
 import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/domain/entities/episode.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
 import 'package:ditonton/domain/usecases/get_tv_series_detail.dart';
+import 'package:ditonton/domain/usecases/get_tv_series_episodes.dart';
 import 'package:ditonton/domain/usecases/get_tv_series_recommendations.dart';
 import 'package:ditonton/domain/usecases/get_watchlist_tv_series_status.dart';
 import 'package:ditonton/domain/usecases/remove_watchlist_tv_series.dart';
@@ -14,6 +16,7 @@ class TvSeriesDetailNotifier extends ChangeNotifier {
 
   final GetTvSeriesDetail getTvSeriesDetail;
   final GetTvSeriesRecommendations getTvSeriesRecommendations;
+  final GetTvSeriesEpisodes getTvSeriesEpisodes;
   final GetWatchListTvSeriesStatus getWatchListTvSeriesStatus;
   final SaveWatchlistTvSeries saveWatchlistTvSeries;
   final RemoveWatchlistTvSeries removeWatchlistTvSeries;
@@ -21,6 +24,7 @@ class TvSeriesDetailNotifier extends ChangeNotifier {
   TvSeriesDetailNotifier({
     required this.getTvSeriesDetail,
     required this.getTvSeriesRecommendations,
+    required this.getTvSeriesEpisodes,
     required this.getWatchListTvSeriesStatus,
     required this.saveWatchlistTvSeries,
     required this.removeWatchlistTvSeries,
@@ -38,6 +42,12 @@ class TvSeriesDetailNotifier extends ChangeNotifier {
   RequestState _recommendationTvSeriesState = RequestState.Empty;
   RequestState get recommendationTvSeriesState => _recommendationTvSeriesState;
 
+  List<Episode> _tvSeriesEpisodes = [];
+  List<Episode> get tvSeriesEpisodes => _tvSeriesEpisodes;
+
+  RequestState _tvSeriesEpisodeState = RequestState.Empty;
+  RequestState get tvSeriesEpisodeState => _tvSeriesEpisodeState;
+
   String _message = '';
   String get message => _message;
 
@@ -49,6 +59,7 @@ class TvSeriesDetailNotifier extends ChangeNotifier {
     notifyListeners();
     final detailResult = await getTvSeriesDetail.execute(id);
     final recommendationResult = await getTvSeriesRecommendations.execute(id);
+
     detailResult.fold(
       (failure) {
         _tvSeriesDetailState = RequestState.Error;
@@ -59,6 +70,7 @@ class TvSeriesDetailNotifier extends ChangeNotifier {
         _recommendationTvSeriesState = RequestState.Loading;
         _tvSeriesDetail = tvSeriesDetail;
         notifyListeners();
+
         recommendationResult.fold(
           (failure) {
             _recommendationTvSeriesState = RequestState.Error;
@@ -69,10 +81,14 @@ class TvSeriesDetailNotifier extends ChangeNotifier {
             _tvSeriesRecommendations = tvSeriesRecommendations;
           },
         );
+
         _tvSeriesDetailState = RequestState.Loaded;
         notifyListeners();
       },
     );
+
+    await fetchTvSeriesEpisodes(
+        tvSeriesDetail.id, tvSeriesDetail.numberOfSeasons);
   }
 
   String _watchlistMessage = '';
@@ -113,5 +129,27 @@ class TvSeriesDetailNotifier extends ChangeNotifier {
     final result = await getWatchListTvSeriesStatus.execute(id);
     _isAddedtoWatchlistTvSeries = result;
     notifyListeners();
+  }
+
+  String _tvSeriesEpisodeMessage = '';
+  String get tvSeriesEpisodeMessage => _tvSeriesEpisodeMessage;
+
+  Future<void> fetchTvSeriesEpisodes(int id, int season) async {
+    _tvSeriesEpisodeState = RequestState.Loading;
+    notifyListeners();
+    final result = await getTvSeriesEpisodes.execute(id, season);
+
+    result.fold(
+      (failure) {
+        _tvSeriesEpisodeState = RequestState.Error;
+        _tvSeriesEpisodeMessage = failure.message;
+        notifyListeners();
+      },
+      (tvSeriesEpisodes) {
+        _tvSeriesEpisodeState = RequestState.Loaded;
+        _tvSeriesEpisodes = tvSeriesEpisodes;
+        notifyListeners();
+      },
+    );
   }
 }

@@ -1,0 +1,27 @@
+{
+    "_id": "65b17e45b76cbb01732bb7ed",
+    "air_date": "2024-02-12",
+    "episodes": [
+      {
+        "air_date": "2024-02-12",
+        "episode_number": 1,
+        "episode_type": "standard",
+        "id": 5098193,
+        "name": "February 12, 2024 - Zanny Minton Beddoes",
+        "overview": "Jon Stewart looks at President Biden and Donald Trump's advanced ages, the news team visits a true American diner, and The Economist's Zanny Minton Beddoes examines national conservatism.",
+        "production_code": "",
+        "runtime": 43,
+        "season_number": 29,
+        "show_id": 2224,
+        "still_path": "/coaGUC0F5Flm7DJAokqWpI1Y2aL.jpg",
+        "vote_average": 0,
+        "vote_count": 0
+      }
+    ],
+    "name": "Season 29",
+    "overview": "",
+    "id": 375682,
+    "poster_path": "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
+    "season_number": 29,
+    "vote_average": 0
+  }

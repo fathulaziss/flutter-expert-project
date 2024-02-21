@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:ditonton/common/exception.dart';
 import 'package:ditonton/common/failure.dart';
+import 'package:ditonton/data/models/episode_model.dart';
 import 'package:ditonton/data/models/genre_model.dart';
 import 'package:ditonton/data/models/last_episode_to_air_model.dart';
+import 'package:ditonton/data/models/season_model.dart';
 import 'package:ditonton/data/models/tv_series_detail_response.dart';
 import 'package:ditonton/data/models/tv_series_model.dart';
 import 'package:ditonton/data/repositories/tv_series_repository_impl.dart';
@@ -235,6 +237,18 @@ void main() {
           "The World's Fakest News Team tackle the biggest stories in news, politics and pop culture.",
       popularity: 3092.914,
       posterPath: "/ixcfyK7it6FjRM36Te4OdblAq4X.jpg",
+      seasons: [
+        SeasonModel(
+          airDate: "1999-12-15",
+          episodeCount: 89,
+          id: 6869,
+          name: "Specials",
+          overview: "",
+          posterPath: "",
+          seasonNumber: 0,
+          voteAverage: 0,
+        ),
+      ],
       voteAverage: 6.3,
       voteCount: 471,
     );
@@ -323,6 +337,55 @@ void main() {
       final result = await repository.getTvSeriesRecommendations(tId);
       // assert
       verify(mockRemoteDataSource.getTvSeriesRecommendations(tId));
+      expect(
+          result,
+          equals(const Left(
+              ConnectionFailure('Failed to connect to the network'))));
+    });
+  });
+
+  group('Get Tv Series Episodes', () {
+    final tTvSeriesEpisodeList = <EpisodeModel>[];
+    const tId = 1;
+    const tSeason = 1;
+
+    test('should return data (episode list) when the call is successful',
+        () async {
+      // arrange
+      when(mockRemoteDataSource.getTvSeriesEpisodes(tId, tSeason))
+          .thenAnswer((_) async => tTvSeriesEpisodeList);
+      // act
+      final result = await repository.getTvSeriesEpisodes(tId, tSeason);
+      // assert
+      verify(mockRemoteDataSource.getTvSeriesEpisodes(tId, tSeason));
+      /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
+      final resultList = result.getOrElse(() => []);
+      expect(resultList, equals(tTvSeriesEpisodeList));
+    });
+
+    test(
+        'should return server failure when call to remote data source is unsuccessful',
+        () async {
+      // arrange
+      when(mockRemoteDataSource.getTvSeriesEpisodes(tId, tSeason))
+          .thenThrow(ServerException());
+      // act
+      final result = await repository.getTvSeriesEpisodes(tId, tSeason);
+      // assert
+      verify(mockRemoteDataSource.getTvSeriesEpisodes(tId, tSeason));
+      expect(result, equals(const Left(ServerFailure(''))));
+    });
+
+    test(
+        'should return connection failure when the device is not connected to the internet',
+        () async {
+      // arrange
+      when(mockRemoteDataSource.getTvSeriesEpisodes(tId, tSeason))
+          .thenThrow(const SocketException('Failed to connect to the network'));
+      // act
+      final result = await repository.getTvSeriesEpisodes(tId, tSeason);
+      // assert
+      verify(mockRemoteDataSource.getTvSeriesEpisodes(tId, tSeason));
       expect(
           result,
           equals(const Left(

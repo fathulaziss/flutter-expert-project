@@ -1,5 +1,6 @@
 import 'package:ditonton/data/models/genre_model.dart';
 import 'package:ditonton/data/models/last_episode_to_air_model.dart';
+import 'package:ditonton/data/models/season_model.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
 import 'package:equatable/equatable.dart';
 
@@ -25,6 +26,7 @@ class TvSeriesDetailResponse extends Equatable {
     required this.overview,
     required this.popularity,
     required this.posterPath,
+    required this.seasons,
     required this.voteAverage,
     required this.voteCount,
   });
@@ -49,6 +51,7 @@ class TvSeriesDetailResponse extends Equatable {
   final String overview;
   final double popularity;
   final String posterPath;
+  final List<SeasonModel> seasons;
   final double voteAverage;
   final int voteCount;
 
@@ -76,6 +79,9 @@ class TvSeriesDetailResponse extends Equatable {
         overview: json["overview"],
         popularity: json["popularity"].toDouble(),
         posterPath: json["poster_path"],
+        seasons: List<SeasonModel>.from((json["seasons"] as List)
+            .map((x) => SeasonModel.fromJson(x))
+            .where((element) => element.posterPath != null)),
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
       );
@@ -101,6 +107,7 @@ class TvSeriesDetailResponse extends Equatable {
         "overview": overview,
         "popularity": popularity,
         "poster_path": posterPath,
+        "seasons": List<dynamic>.from(seasons.map((x) => x.toJson())),
         "vote_average": voteAverage,
         "vote_count": voteCount,
       };
@@ -127,6 +134,7 @@ class TvSeriesDetailResponse extends Equatable {
       overview: overview,
       popularity: popularity,
       posterPath: posterPath,
+      seasons: seasons.reversed.map((season) => season.toEntity()).toList(),
       voteAverage: voteAverage,
       voteCount: voteCount,
     );
@@ -154,6 +162,7 @@ class TvSeriesDetailResponse extends Equatable {
         overview,
         popularity,
         posterPath,
+        seasons,
         voteAverage,
         voteCount,
       ];
