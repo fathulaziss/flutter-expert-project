@@ -35,8 +35,10 @@ void main() {
     voteCount: 1,
   );
 
-  test('should be a subclass of Movie entity', () async {
-    final result = tMovieModel.toEntity();
-    expect(result, tMovie);
+  group('Movie Response', () {
+    test('should be a subclass of Movie entity', () async {
+      final result = tMovieModel.toEntity();
+      expect(result, tMovie);
+    });
   });
 }

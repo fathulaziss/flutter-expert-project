@@ -24,7 +24,7 @@ void main() {
   );
   const tMovieResponseModel =
       MovieResponse(movieList: <MovieModel>[tMovieModel]);
-  group('fromJson', () {
+  group('Movie Response', () {
     test('should return a valid model from JSON', () async {
       // arrange
       final Map<String, dynamic> jsonMap =
@@ -34,9 +34,7 @@ void main() {
       // assert
       expect(result, tMovieResponseModel);
     });
-  });
 
-  group('toJson', () {
     test('should return a JSON map containing proper data', () async {
       // arrange
 
