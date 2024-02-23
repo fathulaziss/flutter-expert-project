@@ -81,7 +81,17 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                     );
                   }
                 } else {
-                  return const Text('Failed');
+                  return SizedBox(
+                    height: 200,
+                    child: Center(
+                      child: Text(
+                        key: const Key('error_message'),
+                        data.message,
+                        textAlign: TextAlign.center,
+                        style: kBodyText,
+                      ),
+                    ),
+                  );
                 }
               }),
               Text('Tv Series', style: kHeading6),
@@ -108,7 +118,17 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                     );
                   }
                 } else {
-                  return const Text('Failed');
+                  return SizedBox(
+                    height: 200,
+                    child: Center(
+                      child: Text(
+                        key: const Key('error_message'),
+                        data.message,
+                        textAlign: TextAlign.center,
+                        style: kBodyText,
+                      ),
+                    ),
+                  );
                 }
               }),
             ],

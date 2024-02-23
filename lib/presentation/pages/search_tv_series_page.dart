@@ -68,7 +68,10 @@ class SearchTvSeriesPage extends StatelessWidget {
                   );
                 } else {
                   return Expanded(
-                    child: Container(),
+                    child: Center(
+                      key: const Key('error_message'),
+                      child: Text(data.message),
+                    ),
                   );
                 }
               },

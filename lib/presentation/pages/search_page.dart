@@ -24,6 +24,7 @@ class SearchPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
+              key: const Key('search_movie'),
               onSubmitted: (query) {
                 Provider.of<MovieSearchNotifier>(context, listen: false)
                     .fetchMovieSearch(query);
@@ -68,7 +69,10 @@ class SearchPage extends StatelessWidget {
                   );
                 } else {
                   return Expanded(
-                    child: Container(),
+                    child: Center(
+                      key: const Key('error_message'),
+                      child: Text(data.message),
+                    ),
                   );
                 }
               },
