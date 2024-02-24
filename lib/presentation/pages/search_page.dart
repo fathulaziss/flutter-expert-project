@@ -25,8 +25,6 @@ class SearchPage extends StatelessWidget {
             TextField(
               key: const Key('search_movie'),
               onChanged: (query) {
-                // Provider.of<MovieSearchNotifier>(context, listen: false)
-                //     .fetchMovieSearch(query);
                 context.read<MovieSearchBloc>().add(OnQueryChanged(query));
               },
               decoration: const InputDecoration(
@@ -41,42 +39,6 @@ class SearchPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            // Consumer<MovieSearchNotifier>(
-            //   builder: (context, data, child) {
-            //     if (data.state == RequestState.Loading) {
-            //       return const Center(
-            //         child: CircularProgressIndicator(),
-            //       );
-            //     } else if (data.state == RequestState.Loaded) {
-            //       final result = data.searchResult;
-            //       return Expanded(
-            //         child: result.isNotEmpty
-            //             ? ListView.builder(
-            //                 padding: const EdgeInsets.all(8),
-            //                 itemBuilder: (context, index) {
-            //                   final movie = result[index];
-            //                   return MovieCard(movie);
-            //                 },
-            //                 itemCount: result.length,
-            //               )
-            //             : Center(
-            //                 child: Text(
-            //                   'Movie Tidak Ditemukan',
-            //                   textAlign: TextAlign.center,
-            //                   style: kBodyText,
-            //                 ),
-            //               ),
-            //       );
-            //     } else {
-            //       return Expanded(
-            //         child: Center(
-            //           key: const Key('error_message'),
-            //           child: Text(data.message),
-            //         ),
-            //       );
-            //     }
-            //   },
-            // ),
             BlocBuilder<MovieSearchBloc, MovieSearchState>(
               builder: (context, state) {
                 if (state is MovieSearchLoading) {

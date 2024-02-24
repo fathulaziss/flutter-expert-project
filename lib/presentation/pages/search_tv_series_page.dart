@@ -24,8 +24,6 @@ class SearchTvSeriesPage extends StatelessWidget {
           children: [
             TextField(
               onChanged: (query) {
-                // Provider.of<TvSeriesSearchNotifier>(context, listen: false)
-                //     .fetchTvSeriesSearch(query);
                 context.read<TvSeriesSearchBloc>().add(OnQueryChanged(query));
               },
               decoration: const InputDecoration(
@@ -40,42 +38,6 @@ class SearchTvSeriesPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            // Consumer<TvSeriesSearchNotifier>(
-            //   builder: (context, data, child) {
-            //     if (data.state == RequestState.Loading) {
-            //       return const Center(
-            //         child: CircularProgressIndicator(),
-            //       );
-            //     } else if (data.state == RequestState.Loaded) {
-            //       final result = data.searchResult;
-            //       return Expanded(
-            //         child: result.isNotEmpty
-            //             ? ListView.builder(
-            //                 padding: const EdgeInsets.all(8),
-            //                 itemBuilder: (context, index) {
-            //                   final tvSeries = result[index];
-            //                   return TvSeriesCard(tvSeries);
-            //                 },
-            //                 itemCount: result.length,
-            //               )
-            //             : Center(
-            //                 child: Text(
-            //                   'Tv Series Tidak Ditemukan',
-            //                   textAlign: TextAlign.center,
-            //                   style: kBodyText,
-            //                 ),
-            //               ),
-            //       );
-            //     } else {
-            //       return Expanded(
-            //         child: Center(
-            //           key: const Key('error_message'),
-            //           child: Text(data.message),
-            //         ),
-            //       );
-            //     }
-            //   },
-            // ),
             BlocBuilder<TvSeriesSearchBloc, TvSeriesSearchState>(
               builder: (context, state) {
                 if (state is TvSeriesSearchLoading) {

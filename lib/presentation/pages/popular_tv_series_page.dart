@@ -18,9 +18,6 @@ class _PopularTvSeriesPageState extends State<PopularTvSeriesPage> {
   @override
   void initState() {
     super.initState();
-    // Future.microtask(() =>
-    //     Provider.of<PopularTvSeriesNotifier>(context, listen: false)
-    //         .fetchPopularTvSeries());
     Future.microtask(() {
       context.read<TvSeriesPopularBloc>().add(FetchTvSeriesPopular());
     });
@@ -34,28 +31,6 @@ class _PopularTvSeriesPageState extends State<PopularTvSeriesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        // child: Consumer<PopularTvSeriesNotifier>(
-        //   builder: (context, data, child) {
-        //     if (data.state == RequestState.Loading) {
-        //       return const Center(
-        //         child: CircularProgressIndicator(),
-        //       );
-        //     } else if (data.state == RequestState.Loaded) {
-        //       return ListView.builder(
-        //         itemBuilder: (context, index) {
-        //           final tvSeries = data.tvSeries[index];
-        //           return TvSeriesCard(tvSeries);
-        //         },
-        //         itemCount: data.tvSeries.length,
-        //       );
-        //     } else {
-        //       return Center(
-        //         key: const Key('error_message'),
-        //         child: Text(data.message),
-        //       );
-        //     }
-        //   },
-        // ),
         child: BlocBuilder<TvSeriesPopularBloc, TvSeriesPopularState>(
           builder: (context, state) {
             if (state is TvSeriesPopularLoading) {

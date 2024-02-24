@@ -18,9 +18,6 @@ class _TvSeriesListPageState extends State<TvSeriesListPage> {
   @override
   void initState() {
     super.initState();
-    // Future.microtask(() =>
-    //     Provider.of<TvSeriesListNotifier>(context, listen: false)
-    //         .fetchTopRatedTvSeries());
     Future.microtask(() {
       context.read<TvSeriesNowPlayingBloc>().add(FetchTvSeriesNowPlaying());
     });
@@ -34,28 +31,6 @@ class _TvSeriesListPageState extends State<TvSeriesListPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        // child: Consumer<TvSeriesListNotifier>(
-        //   builder: (context, data, child) {
-        //     if (data.nowPlayingTvSeriesState == RequestState.Loading) {
-        //       return const Center(
-        //         child: CircularProgressIndicator(),
-        //       );
-        //     } else if (data.nowPlayingTvSeriesState == RequestState.Loaded) {
-        //       return ListView.builder(
-        //         itemBuilder: (context, index) {
-        //           final tvSeries = data.nowPlayingTvSeries[index];
-        //           return TvSeriesCard(tvSeries);
-        //         },
-        //         itemCount: data.nowPlayingTvSeries.length,
-        //       );
-        //     } else {
-        //       return Center(
-        //         key: const Key('error_message'),
-        //         child: Text(data.message),
-        //       );
-        //     }
-        //   },
-        // ),
         child: BlocBuilder<TvSeriesNowPlayingBloc, TvSeriesNowPlayingState>(
           builder: (context, state) {
             if (state is TvSeriesNowPlayingLoading) {
