@@ -1,14 +1,12 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:ditonton/presentation/provider/watchlist_tv_series_notifier.dart';
+import 'package:ditonton/presentation/bloc/movie_list_watchlist/movie_list_watchlist_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_series_list_watchlist/tv_series_list_watchlist_bloc.dart';
 import 'package:ditonton/presentation/widgets/movie_list.dart';
 import 'package:ditonton/presentation/widgets/tv_series_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WatchlistMoviesPage extends StatefulWidget {
   static const ROUTE_NAME = '/watchlist-movie';
@@ -19,31 +17,16 @@ class WatchlistMoviesPage extends StatefulWidget {
   State<WatchlistMoviesPage> createState() => _WatchlistMoviesPageState();
 }
 
-class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
-    with RouteAware {
+class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> {
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      Provider.of<WatchlistMovieNotifier>(context, listen: false)
-          .fetchWatchlistMovies();
-      Provider.of<WatchlistTvSeriesNotifier>(context, listen: false)
-          .fetchWatchlistTvSeries();
+      context.read<MovieListWatchlistBloc>().add(FetchMovieListWatchlist());
+      context
+          .read<TvSeriesListWatchlistBloc>()
+          .add(FetchTvSeriesListWatchlist());
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context)!);
-  }
-
-  @override
-  void didPopNext() {
-    Provider.of<WatchlistMovieNotifier>(context, listen: false)
-        .fetchWatchlistMovies();
-    Provider.of<WatchlistTvSeriesNotifier>(context, listen: false)
-        .fetchWatchlistTvSeries();
   }
 
   @override
@@ -59,88 +42,86 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Movies', style: kHeading6),
-              Consumer<WatchlistMovieNotifier>(builder: (context, data, child) {
-                final state = data.watchlistState;
-                if (state == RequestState.Loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  if (data.watchlistMovies.isNotEmpty) {
-                    return MovieList(data.watchlistMovies);
-                  } else {
+              BlocBuilder<MovieListWatchlistBloc, MovieListWatchlistState>(
+                builder: (context, state) {
+                  if (state is MovieListWatchlistLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is MovieListWatchlistLoaded) {
+                    final movies = state.movies;
+                    if (movies.isNotEmpty) {
+                      return MovieList(movies);
+                    } else {
+                      return SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: Text(
+                            'Anda belum menambahkan Movie ke daftar tonton Anda',
+                            textAlign: TextAlign.center,
+                            style: kBodyText,
+                          ),
+                        ),
+                      );
+                    }
+                  } else if (state is MovieListWatchlistError) {
                     return SizedBox(
                       height: 200,
                       child: Center(
                         child: Text(
-                          'Anda belum menambahkan Movie ke daftar tonton Anda',
+                          key: const Key('error_message'),
+                          state.message,
                           textAlign: TextAlign.center,
                           style: kBodyText,
                         ),
                       ),
                     );
+                  } else {
+                    return const SizedBox();
                   }
-                } else {
-                  return SizedBox(
-                    height: 200,
-                    child: Center(
-                      child: Text(
-                        key: const Key('error_message'),
-                        data.message,
-                        textAlign: TextAlign.center,
-                        style: kBodyText,
-                      ),
-                    ),
-                  );
-                }
-              }),
+                },
+              ),
               Text('Tv Series', style: kHeading6),
-              Consumer<WatchlistTvSeriesNotifier>(
-                  builder: (context, data, child) {
-                final state = data.watchlistTvSeriesState;
-                if (state == RequestState.Loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  if (data.watchlistTvSeries.isNotEmpty) {
-                    return TvSeriesList(data.watchlistTvSeries);
-                  } else {
+              BlocBuilder<TvSeriesListWatchlistBloc,
+                  TvSeriesListWatchlistState>(
+                builder: (context, state) {
+                  if (state is TvSeriesListWatchlistLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is TvSeriesListWatchlistLoaded) {
+                    final tvSeries = state.tvSeries;
+                    if (tvSeries.isNotEmpty) {
+                      return TvSeriesList(tvSeries);
+                    } else {
+                      return SizedBox(
+                        height: 200,
+                        child: Center(
+                          child: Text(
+                            'Anda belum menambahkan Tv Series ke daftar tonton Anda',
+                            textAlign: TextAlign.center,
+                            style: kBodyText,
+                          ),
+                        ),
+                      );
+                    }
+                  } else if (state is TvSeriesListWatchlistError) {
                     return SizedBox(
                       height: 200,
                       child: Center(
                         child: Text(
-                          'Anda belum menambahkan Tv Series ke daftar tonton Anda',
+                          key: const Key('error_message'),
+                          state.message,
                           textAlign: TextAlign.center,
                           style: kBodyText,
                         ),
                       ),
                     );
+                  } else {
+                    return const SizedBox();
                   }
-                } else {
-                  return SizedBox(
-                    height: 200,
-                    child: Center(
-                      child: Text(
-                        key: const Key('error_message'),
-                        data.message,
-                        textAlign: TextAlign.center,
-                        style: kBodyText,
-                      ),
-                    ),
-                  );
-                }
-              }),
+                },
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    routeObserver.unsubscribe(this);
-    super.dispose();
   }
 }

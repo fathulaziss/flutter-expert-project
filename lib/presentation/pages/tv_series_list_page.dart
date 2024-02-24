@@ -1,10 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/provider/tv_series_list_notifier.dart';
+import 'package:ditonton/presentation/bloc/tv_series_now_playing/tv_series_now_playing_bloc.dart';
 import 'package:ditonton/presentation/widgets/tv_series_card.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TvSeriesListPage extends StatefulWidget {
   static const ROUTE_NAME = '/tv-series-list';
@@ -19,9 +18,12 @@ class _TvSeriesListPageState extends State<TvSeriesListPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<TvSeriesListNotifier>(context, listen: false)
-            .fetchTopRatedTvSeries());
+    // Future.microtask(() =>
+    //     Provider.of<TvSeriesListNotifier>(context, listen: false)
+    //         .fetchTopRatedTvSeries());
+    Future.microtask(() {
+      context.read<TvSeriesNowPlayingBloc>().add(FetchTvSeriesNowPlaying());
+    });
   }
 
   @override
@@ -32,25 +34,48 @@ class _TvSeriesListPageState extends State<TvSeriesListPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<TvSeriesListNotifier>(
-          builder: (context, data, child) {
-            if (data.nowPlayingTvSeriesState == RequestState.Loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (data.nowPlayingTvSeriesState == RequestState.Loaded) {
+        // child: Consumer<TvSeriesListNotifier>(
+        //   builder: (context, data, child) {
+        //     if (data.nowPlayingTvSeriesState == RequestState.Loading) {
+        //       return const Center(
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     } else if (data.nowPlayingTvSeriesState == RequestState.Loaded) {
+        //       return ListView.builder(
+        //         itemBuilder: (context, index) {
+        //           final tvSeries = data.nowPlayingTvSeries[index];
+        //           return TvSeriesCard(tvSeries);
+        //         },
+        //         itemCount: data.nowPlayingTvSeries.length,
+        //       );
+        //     } else {
+        //       return Center(
+        //         key: const Key('error_message'),
+        //         child: Text(data.message),
+        //       );
+        //     }
+        //   },
+        // ),
+        child: BlocBuilder<TvSeriesNowPlayingBloc, TvSeriesNowPlayingState>(
+          builder: (context, state) {
+            if (state is TvSeriesNowPlayingLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is TvSeriesNowPlayingLoaded) {
+              final tvSeriesList = state.tvSeries;
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tvSeries = data.nowPlayingTvSeries[index];
+                  final tvSeries = tvSeriesList[index];
                   return TvSeriesCard(tvSeries);
                 },
-                itemCount: data.nowPlayingTvSeries.length,
+                itemCount: tvSeriesList.length,
               );
-            } else {
+            } else if (state is TvSeriesNowPlayingError) {
               return Center(
                 key: const Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.message),
               );
+            } else {
+              return const SizedBox();
             }
           },
         ),
