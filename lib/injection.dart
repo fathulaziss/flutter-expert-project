@@ -47,12 +47,16 @@ import 'package:ditonton/presentation/bloc/tv_series_search/tv_series_search_blo
 import 'package:ditonton/presentation/bloc/tv_series_top_rated/tv_series_top_rated_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_series_watchlist/tv_series_watchlist_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_series_watchlist_status/tv_series_watchlist_status_bloc.dart';
+import 'package:ditonton/utils/ssl_pinning.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
+import 'package:http/io_client.dart';
 
 final locator = GetIt.instance;
 
-void init() {
+Future<void> init() async {
+  IOClient ioClient = await SslPinning.ioClient;
+
   locator.registerFactory(
     () => MovieListWatchlistBloc(getWatchlistMovies: locator()),
   );
@@ -156,7 +160,7 @@ void init() {
 
   // data sources
   locator.registerLazySingleton<MovieRemoteDataSource>(
-      () => MovieRemoteDataSourceImpl(client: locator()));
+      () => MovieRemoteDataSourceImpl(client: locator(), ioClient: locator()));
   locator.registerLazySingleton<MovieLocalDataSource>(
       () => MovieLocalDataSourceImpl(databaseHelper: locator()));
   locator.registerLazySingleton<TvSeriesRemoteDataSource>(
@@ -169,4 +173,5 @@ void init() {
 
   // external
   locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => ioClient);
 }

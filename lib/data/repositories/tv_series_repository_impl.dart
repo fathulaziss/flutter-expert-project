@@ -29,6 +29,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(CertificateFailure('Certificated not valid\n${e.message}'));
     }
   }
 
@@ -41,6 +43,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(CertificateFailure('Certificated not valid\n${e.message}'));
     }
   }
 
@@ -55,6 +59,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(CertificateFailure('Certificated not valid\n${e.message}'));
     }
   }
 
@@ -67,6 +73,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(CertificateFailure('Certificated not valid\n${e.message}'));
     }
   }
 
@@ -79,6 +87,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(CertificateFailure('Certificated not valid\n${e.message}'));
     }
   }
 
@@ -91,6 +101,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(CertificateFailure('Certificated not valid\n${e.message}'));
     }
   }
 
@@ -145,6 +157,8 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return const Left(ServerFailure(''));
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
+    } on TlsException catch (e) {
+      return Left(CertificateFailure('Certificated not valid\n${e.message}'));
     }
   }
 }

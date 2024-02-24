@@ -56,6 +56,8 @@ class _TvSeriesDetailPageState extends State<TvSeriesDetailPage> {
             return SafeArea(
               child: TvSeriesDetailContent(tvSeriesDetail: tvSeriesDetail),
             );
+          } else if (state is TvSeriesDetailError) {
+            return Center(child: Text(state.message));
           } else {
             return SizedBox(width: MediaQuery.of(context).size.width);
           }

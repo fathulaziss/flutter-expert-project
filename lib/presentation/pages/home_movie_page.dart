@@ -143,8 +143,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                       );
                     } else if (state is MovieNowPlayingLoaded) {
                       return MovieList(state.movies);
+                    } else if (state is MovieNowPlayingError) {
+                      return Text(state.message);
                     } else {
-                      return const Text('Failed');
+                      return const SizedBox();
                     }
                   },
                 )
@@ -157,8 +159,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                       );
                     } else if (state is TvSeriesNowPlayingLoaded) {
                       return TvSeriesList(state.tvSeries);
+                    } else if (state is TvSeriesNowPlayingError) {
+                      return Text(state.message);
                     } else {
-                      return const Text('Failed');
+                      return const SizedBox();
                     }
                   },
                 ),
@@ -182,8 +186,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                       );
                     } else if (state is MoviePopularLoaded) {
                       return MovieList(state.movies);
+                    } else if (state is MoviePopularError) {
+                      return Text(state.message);
                     } else {
-                      return const Text('Failed');
+                      return const SizedBox();
                     }
                   },
                 )
@@ -196,8 +202,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                       );
                     } else if (state is TvSeriesPopularLoaded) {
                       return TvSeriesList(state.tvSeries);
+                    } else if (state is TvSeriesPopularError) {
+                      return Text(state.message);
                     } else {
-                      return const Text('Failed');
+                      return const SizedBox();
                     }
                   },
                 ),
@@ -221,8 +229,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                       );
                     } else if (state is MovieTopRatedLoaded) {
                       return MovieList(state.movies);
+                    } else if (state is MovieTopRatedError) {
+                      return Text(state.message);
                     } else {
-                      return const Text('Failed');
+                      return const SizedBox();
                     }
                   },
                 )
@@ -235,8 +245,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                       );
                     } else if (state is TvSeriesTopRatedLoaded) {
                       return TvSeriesList(state.tvSeries);
+                    } else if (state is TvSeriesTopRatedError) {
+                      return Text(state.message);
                     } else {
-                      return const Text('Failed');
+                      return const SizedBox();
                     }
                   },
                 ),

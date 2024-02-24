@@ -49,6 +49,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             return SafeArea(
               child: MovieDetailContent(movieDetail: movieDetail),
             );
+          } else if (state is MovieDetailError) {
+            return Center(child: Text(state.message));
           } else {
             return SizedBox(width: MediaQuery.of(context).size.width);
           }
