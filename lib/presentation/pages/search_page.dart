@@ -57,7 +57,7 @@ class SearchPage extends StatelessWidget {
                           )
                         : Center(
                             child: Text(
-                              'Movie Tidak Ditemukan',
+                              'Movie Tidak Ditemukan.',
                               textAlign: TextAlign.center,
                               style: kBodyText,
                             ),
