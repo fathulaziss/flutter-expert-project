@@ -16,15 +16,6 @@ class MovieWatchlistStatusInitial extends MovieWatchlistStatusState {
   List<Object> get props => [state];
 }
 
-class MovieWatchlistStatusLoading extends MovieWatchlistStatusState {
-  final RequestState state;
-
-  const MovieWatchlistStatusLoading({required this.state});
-
-  @override
-  List<Object> get props => [state];
-}
-
 class MovieWatchlistStatusLoaded extends MovieWatchlistStatusState {
   final bool isExistAtWatchlist;
   final RequestState state;
