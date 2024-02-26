@@ -17,7 +17,6 @@ import 'package:ditonton/presentation/pages/tv_series_list_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
 import 'package:ditonton/presentation/widgets/movie_list.dart';
 import 'package:ditonton/presentation/widgets/tv_series_list.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -110,7 +109,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
         actions: [
           IconButton(
             onPressed: () {
-              FirebaseCrashlytics.instance.crash();
+              // FirebaseCrashlytics.instance.crash();
               if (screenType == ScreenType.Movie) {
                 Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
               } else {
