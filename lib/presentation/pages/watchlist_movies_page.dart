@@ -1,10 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/presentation/bloc/movie_list_watchlist/movie_list_watchlist_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_series_list_watchlist/tv_series_list_watchlist_bloc.dart';
-import 'package:ditonton/presentation/widgets/movie_list.dart';
-import 'package:ditonton/presentation/widgets/tv_series_list.dart';
+import 'package:ditonton/presentation/pages/movie_detail_page.dart';
+import 'package:ditonton/presentation/pages/tv_series_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,7 +50,46 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> {
                   } else if (state is MovieListWatchlistLoaded) {
                     final movies = state.movies;
                     if (movies.isNotEmpty) {
-                      return MovieList(movies);
+                      return SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final movie = movies[index];
+                            return Container(
+                              padding: const EdgeInsets.all(8),
+                              child: InkWell(
+                                onTap: () async {
+                                  await Navigator.pushNamed(
+                                    context,
+                                    MovieDetailPage.ROUTE_NAME,
+                                    arguments: movie.id,
+                                  );
+                                  if (context.mounted) {
+                                    context
+                                        .read<MovieListWatchlistBloc>()
+                                        .add(FetchMovieListWatchlist());
+                                  }
+                                },
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16)),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        '$BASE_IMAGE_URL${movie.posterPath}',
+                                    placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          itemCount: movies.length,
+                        ),
+                      );
                     } else {
                       return SizedBox(
                         height: 200,
@@ -86,9 +126,48 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> {
                   if (state is TvSeriesListWatchlistLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is TvSeriesListWatchlistLoaded) {
-                    final tvSeries = state.tvSeries;
-                    if (tvSeries.isNotEmpty) {
-                      return TvSeriesList(tvSeries);
+                    final tvSeriesList = state.tvSeries;
+                    if (tvSeriesList.isNotEmpty) {
+                      return SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final tvSeries = tvSeriesList[index];
+                            return Container(
+                              padding: const EdgeInsets.all(8),
+                              child: InkWell(
+                                onTap: () async {
+                                  await Navigator.pushNamed(
+                                    context,
+                                    TvSeriesDetailPage.ROUTE_NAME,
+                                    arguments: tvSeries.id,
+                                  );
+                                  if (context.mounted) {
+                                    context
+                                        .read<TvSeriesListWatchlistBloc>()
+                                        .add(FetchTvSeriesListWatchlist());
+                                  }
+                                },
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16)),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        '$BASE_IMAGE_URL${tvSeries.posterPath}',
+                                    placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          itemCount: tvSeriesList.length,
+                        ),
+                      );
                     } else {
                       return SizedBox(
                         height: 200,

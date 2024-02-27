@@ -163,8 +163,8 @@ Future<void> init() async {
       () => MovieRemoteDataSourceImpl(client: locator(), ioClient: locator()));
   locator.registerLazySingleton<MovieLocalDataSource>(
       () => MovieLocalDataSourceImpl(databaseHelper: locator()));
-  locator.registerLazySingleton<TvSeriesRemoteDataSource>(
-      () => TvSeriesRemoteDataSourceImpl(client: locator()));
+  locator.registerLazySingleton<TvSeriesRemoteDataSource>(() =>
+      TvSeriesRemoteDataSourceImpl(client: locator(), ioClient: locator()));
   locator.registerLazySingleton<TvSeriesLocalDataSource>(
       () => TvSeriesLocalDataSourceImpl(databaseHelper: locator()));
 
